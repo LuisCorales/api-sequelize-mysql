@@ -1,0 +1,29 @@
+{
+  "name": "api-sequelize-mysql",
+  "version": "1.0.0",
+  "description": "API to manage MySQL database using Sequelize. NodeJS and ExpressJS used.",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "moment": "^2.29.1",
+    "moment-range": "^4.0.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
+    "nodejs": "0.0.0",
+    "sequelize": "^6.6.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuisCorales/api-sequelize-mysql.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuisCorales/api-sequelize-mysql/issues"
+  },
+  "homepage": "https://github.com/LuisCorales/api-sequelize-mysql#readme"
+}

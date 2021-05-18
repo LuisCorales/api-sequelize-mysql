@@ -2,6 +2,10 @@
 const express = require("express");
 const app = express();
 
+// DB connection
+const testConnection = require("./db/database");
+testConnection();
+
 // Settings -> port = 5500
 app.set("port", 5500);
 const port = app.set("port");

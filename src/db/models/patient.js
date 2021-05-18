@@ -1,9 +1,26 @@
-// Create patient table
-const sql = 'CREATE TABLE IF NOT EXISTS medicaldb.patient ( ' + 
-    'id int AUTO_INCREMENT, ' +
-    'firstName VARCHAR(60) NOT NULL, ' + 
-    'surname VARCHAR(60) NOT NULL, ' + 
-    'pathology VARCHAR(100), ' + 
-    'PRIMARY KEY(id) )';
+const db = require('../database');
+const Sequelize = require('sequelize');
 
-module.exports = sql;
+// Define patient model
+module.exports = db.define('patient', {
+    id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    firstName: {
+        type: Sequelize.STRING(60),
+        allowNull: false
+    },
+    surname: {
+        type: Sequelize.STRING(60),
+        allowNull: false
+    },
+    idDocument: {
+        type: Sequelize.STRING(20),
+        allowNull: false,
+        unique: true
+    },
+    pathology: Sequelize.STRING(100)
+});

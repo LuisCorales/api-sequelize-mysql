@@ -1,16 +1,34 @@
-// Create doctor table
-const sql = 'CREATE TABLE IF NOT EXISTS medicaldb.doctor ( ' +
-    'id INT NOT NULL AUTO_INCREMENT, ' +
-    'firstName VARCHAR(60) NOT NULL, ' +
-    'surname VARCHAR(60) NOT NULL, ' +
-    'speciality VARCHAR(60) NOT NULL, ' +
-    'hospitalId INT NOT NULL, ' +
-    'PRIMARY KEY (id), ' +
-    'INDEX hospitalId_idx (hospitalId ASC) VISIBLE, ' +
-    'CONSTRAINT hospitalId ' +
-      'FOREIGN KEY (hospitalId) ' +
-      'REFERENCES medicaldb.hospital (id) ' +
-      'ON DELETE NO ACTION ' +
-      'ON UPDATE NO ACTION)';
+const db = require('../database');
+const Sequelize = require('sequelize');
 
-module.exports = sql;
+// Define doctor model
+module.exports = db.define('doctor', {
+    id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    firstName: {
+        type: Sequelize.STRING(60),
+        allowNull: false
+    },
+    surname: {
+        type: Sequelize.STRING(60),
+        allowNull: false
+    },
+    speciality: {
+        type: Sequelize.STRING(20),
+        allowNull: false
+    },
+    hospitalId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'hospitals',
+            key: 'id'
+        },
+        onUpdate: 'NO ACTION',
+        onDelete: 'NO ACTION'
+    },
+});

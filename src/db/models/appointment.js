@@ -1,22 +1,40 @@
-// Create appointment table
-const sql = 'CREATE TABLE IF NOT EXISTS medicaldb.appointment ( ' +
-    'id INT NOT NULL AUTO_INCREMENT, ' +
-    'doctorId INT NOT NULL, ' +
-    'patientId INT NOT NULL, ' +
-    'startTime DATETIME NOT NULL, ' +
-    'endTime DATETIME NOT NULL, ' +
-    'PRIMARY KEY (id), ' +
-    'INDEX doctorId_idx (doctorId ASC) VISIBLE, ' +
-    'INDEX patientId_idx (patientId ASC) VISIBLE, ' +
-    'CONSTRAINT doctorId ' +
-      'FOREIGN KEY (doctorId) ' +
-      'REFERENCES medicaldb.doctor (id) ' +
-      'ON DELETE NO ACTION ' +
-      'ON UPDATE NO ACTION,' +
-    'CONSTRAINT patientId ' +
-      'FOREIGN KEY (patientId) ' +
-      'REFERENCES medicaldb.patient (id) ' +
-      'ON DELETE NO ACTION ' +
-      'ON UPDATE NO ACTION)';
+const db = require('../database');
+const Sequelize = require('sequelize');
 
-module.exports = sql;
+// Define appointment model
+module.exports = db.define('appointment', {
+    id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    patientId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'patients',
+            key: 'id',
+        },
+        onUpdate: 'NO ACTION',
+        onDelete: 'NO ACTION'
+    },
+    doctorId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'doctors',
+            key: 'id'
+        },
+        onUpdate: 'NO ACTION',
+        onDelete: 'NO ACTION'
+    },
+    startTime: {
+        type: Sequelize.DATE,
+        allowNull: false
+    },
+    endTime: { 
+        type: Sequelize.DATE,
+        allowNull: false,
+    }
+});

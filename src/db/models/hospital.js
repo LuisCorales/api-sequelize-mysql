@@ -1,7 +1,13 @@
-// Create hospital table
-const sql = 'CREATE TABLE IF NOT EXISTS medicaldb.hospital ( ' + 
-    'id int AUTO_INCREMENT, ' +
-    'name VARCHAR(60) NOT NULL, ' + 
-    'PRIMARY KEY(id) )';
+const db = require('../database');
+const Sequelize = require('sequelize');
 
-module.exports = sql;
+// Define hospital model
+module.exports = db.define('hospital', {
+    id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    name: Sequelize.STRING(60),
+});

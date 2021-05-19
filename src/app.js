@@ -1,17 +1,26 @@
 // Create express application
 const express = require("express");
 const app = express();
+app.use(express.json());
 
 // DB connection
 const testConnection = require("./db/database");
 testConnection();
 
-// Settings -> port = 5500
+// Set the app port
 app.set("port", 5500);
 const port = app.set("port");
 
-// Configures express to read and write JSON
-app.use(express.json());
+// Handle each route
+const routes = require('./routes');
+app.use('/', routes);
+
+// If not fitting route was found, then display error
+app.use((req, res, next) => {
+    return res.status(500).json({
+        error: "Type of request not found: " + req.url
+    });
+});
 
 // Set up and run the API server
 app.listen(port, () => {

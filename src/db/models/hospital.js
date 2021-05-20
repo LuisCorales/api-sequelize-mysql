@@ -2,7 +2,7 @@ const db = require('../database');
 const Sequelize = require('sequelize');
 
 // Define hospital model
-module.exports = db.define('hospital', {
+const Hospital = db.define('hospital', {
     id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -11,3 +11,5 @@ module.exports = db.define('hospital', {
     },
     name: Sequelize.STRING(60),
 });
+
+module.exports = Hospital;

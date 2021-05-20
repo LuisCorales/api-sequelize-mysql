@@ -2,7 +2,7 @@ const db = require('../database');
 const Sequelize = require('sequelize');
 
 // Define doctor model
-module.exports = db.define('doctor', {
+const Doctor = db.define('doctor', {
     id: {
         type: Sequelize.INTEGER,
         allowNull: false,

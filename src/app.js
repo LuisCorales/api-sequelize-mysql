@@ -4,8 +4,7 @@ const app = express();
 app.use(express.json());
 
 // DB connection
-const testConnection = require("./db/database");
-testConnection();
+const db = require("./db/database");
 
 // Set the app port
 app.set("port", 5500);
@@ -23,6 +22,14 @@ app.use((req, res) => {
 });
 
 // Set up and run the API server
-app.listen(port, () => {
-    console.log("The server is running on port:", port);
+app.listen(port, async () => {
+    console.log("The server is running on http://localhost:" + port);
+
+    // Test connection to DB
+    try {
+        await db.authenticate();
+        console.log('Database connected!');
+    } catch(e) {
+        console.error('Unable to connect to the database:', e);
+    }
 });

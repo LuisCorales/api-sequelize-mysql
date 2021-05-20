@@ -10,12 +10,12 @@ router.get("/", doctorsController.getAll);
 router.post("/", doctorsController.post);
 
 // GET a doctor by id
-router.get("/:doctorId", doctorsController.getOne);
+router.get("/:id", doctorsController.getOne);
 
 // PUT/UPDATE a doctor by id
-router.put("/:doctorId", doctorsController.put);
+router.put("/:id", doctorsController.put);
 
 // DELETE a doctor
-router.delete("/:doctorId", doctorsController.delete);
+router.delete("/:id", doctorsController.delete);
 
 module.exports = router;

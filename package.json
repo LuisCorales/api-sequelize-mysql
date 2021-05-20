@@ -7,14 +7,16 @@
     "express": "^4.17.1",
     "moment": "^2.29.1",
     "moment-range": "^4.0.2",
-    "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
     "nodejs": "0.0.0",
-    "sequelize": "^6.6.2"
+    "nodemon": "^2.0.7",
+    "sequelize": "^6.6.2",
+    "sequelize-cli": "^6.2.0"
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node src/app.js"
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
   },
   "repository": {
     "type": "git",

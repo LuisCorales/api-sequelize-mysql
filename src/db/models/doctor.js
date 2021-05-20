@@ -32,3 +32,5 @@ const Doctor = db.define('doctor', {
         onDelete: 'NO ACTION'
     },
 });
+
+module.exports = Doctor;

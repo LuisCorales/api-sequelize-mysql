@@ -2,7 +2,7 @@ const db = require('../database');
 const Sequelize = require('sequelize');
 
 // Define patient model
-module.exports = db.define('patient', {
+const Patient = db.define('patient', {
     id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -24,3 +24,5 @@ module.exports = db.define('patient', {
     },
     pathology: Sequelize.STRING(100)
 });
+
+module.exports = Patient;

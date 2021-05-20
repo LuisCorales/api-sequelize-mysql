@@ -3,13 +3,21 @@ const Sequelize = require('sequelize');
 
 /** Define hospital model */ 
 const Hospital = db.define('hospital', {
-    id: {
-        type: Sequelize.INTEGER,
+    name: {
+        type: Sequelize.STRING,
         allowNull: false,
-        autoIncrement: true,
-        primaryKey: true
+        validate: {
+            len: {
+                args: [3, 60],
+                msg: "surname can only have from 3 to 60 letters."
+            },
+            notNull: {
+                msg: "surname cannot be null."
+            }
+        }
     },
-    name: Sequelize.STRING(60),
+}, {
+    timestamps: false
 });
 
 module.exports = Hospital;

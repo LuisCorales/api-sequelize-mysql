@@ -16,7 +16,7 @@ const routes = require('./routes');
 app.use('/', routes);
 
 // If not fitting route was found, then display error
-app.use((req, res, next) => {
+app.use((req, res) => {
     return res.status(500).json({
         error: "Type of request not found: " + req.url
     });

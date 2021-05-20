@@ -6,13 +6,10 @@ app.use(express.json());
 // DB connection
 const db = require("./db/database");
 
-// Set the app port
+// Set the app port and handle routes
 app.set("port", 5500);
 const port = app.set("port");
-
-// Handle each route
-const routes = require('./routes');
-app.use('/', routes);
+app.use('/', require('./routes'));
 
 // If not fitting route was found, then display error
 app.use((req, res) => {
@@ -25,9 +22,11 @@ app.use((req, res) => {
 app.listen(port, async () => {
     console.log("The server is running on http://localhost:" + port);
 
-    // Test connection to DB
+    // Connect to DB
     try {
-        await db.authenticate();
+        await db.sync({
+            force: true
+        });
         console.log('Database connected!');
     } catch(e) {
         console.error('Unable to connect to the database:', e);

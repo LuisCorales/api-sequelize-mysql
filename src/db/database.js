@@ -18,3 +18,5 @@ const db = new Sequelize(database, username, password, {
 });
 
 module.exports = db;
+
+require('./asociations');

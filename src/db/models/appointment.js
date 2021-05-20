@@ -18,3 +18,5 @@ const Appointment = db.define('appointment', {
         allowNull: false,
     }
 });
+
+module.exports = Appointment;

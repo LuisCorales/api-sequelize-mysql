@@ -10,12 +10,12 @@ router.get("/", patientsController.getAll);
 router.post("/", patientsController.post);
 
 // GET a patient by id
-router.get("/:patientId", patientsController.getOne);
+router.get("/:id", patientsController.getOne);
 
 // PUT/UPDATE a patient by id
-router.put("/:patientId", patientsController.put);
+router.put("/:id", patientsController.put);
 
 // DELETE a patient
-router.delete("/:patientId", patientsController.delete);
+router.delete("/:id", patientsController.delete);
 
 module.exports = router;

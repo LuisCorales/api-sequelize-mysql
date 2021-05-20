@@ -9,4 +9,6 @@ Doctor.belongsTo(Hospital);
 
 // Appointment's relations
 Patient.hasOne(Appointment);
+Appointment.belongsTo(Patient);
 Doctor.hasOne(Appointment);
+Appointment.belongsTo(Doctor);

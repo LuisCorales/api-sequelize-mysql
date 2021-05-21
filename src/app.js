@@ -22,11 +22,19 @@ app.use((req, res) => {
 app.listen(port, async () => {
     console.log("The server is running on http://localhost:" + port);
 
-    // Connect to DB
+    // // Connect to DB without migrations ran
+    // try {
+    //     await db.sync({
+    //         force: true
+    //     });
+    //     console.log('Database connected!');
+    // } catch(e) {
+    //     console.error('Unable to connect to the database:', e);
+    // }
+
+    // Connect to DB with migrations ran
     try {
-        await db.sync({
-            force: false
-        });
+        await db.authenticate();
         console.log('Database connected!');
     } catch(e) {
         console.error('Unable to connect to the database:', e);

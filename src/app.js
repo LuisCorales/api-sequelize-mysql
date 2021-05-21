@@ -9,7 +9,7 @@ const db = require("./db/database");
 // Set the app port and handle routes
 app.set("port", 5500);
 const port = app.set("port");
-app.use('/', require('./routes'));
+app.use('/api/', require('./routes'));
 
 // If not fitting route was found, then display error
 app.use((req, res) => {

@@ -2,20 +2,51 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
+    await queryInterface.createTable('doctors', {
+      firstName: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          is: {
+            args: /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\'\s]*)$/g,
+            msg: "firstName can only contain letters and '."
+          },
+          len: {
+            args: [3, 60],
+            msg: "firstName can only have from 3 to 60 letters."
+          },
+          notNull: {
+            msg: "firstName cannot be null."
+          }
+        }
+      },
+      surname: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          is: {
+            args: /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\'\s]*)$/g,
+            msg: "surname can only contain letters and '."
+          },
+          len: {
+            args: [3, 60],
+            msg: "surname can only have from 3 to 60 letters."
+          },
+          notNull: {
+            msg: "surname cannot be null."
+          }
+        }
+      },
+      speciality: {
+        type: Sequelize.STRING(100),
+        allowNull: false
+      },
+    }, {
+      timestamps: false
+    });
   },
 
   down: async (queryInterface, Sequelize) => {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
+    await queryInterface.dropTable('doctors');
   }
 };

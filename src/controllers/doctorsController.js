@@ -26,7 +26,7 @@ exports.getAll = async (req, res) => {
             }
         });
 
-        sendResult(res, "GET request to /doctors/", result);
+        sendResult(res, `GET request to ${req.originalUrl}`, result);
     } catch(e) {
         sendError(res, e);
     }
@@ -42,7 +42,7 @@ exports.post = async (req, res) => {
             hospitalId: req.body.hospitalId
         });
 
-        sendResult(res, "POST request to /doctors/", result);
+        sendResult(res, `POST request to ${req.originalUrl}`, result);
     } catch(e) {
         sendError(res, e);
     }
@@ -53,7 +53,7 @@ exports.getOne = async (req, res) => {
     try{
         let result = await Doctor.findByPk(req.params.id);
 
-        sendResult(res, "GET request to /doctors/" + req.params.id, result);
+        sendResult(res, `GET request to ${req.originalUrl}`, result);
     } catch(e) {
         sendError(res, e);
     }
@@ -73,7 +73,7 @@ exports.put = async (req, res) => {
             }
         });
 
-        sendResult(res, "PUT request to /doctors/" + req.params.id, `Updated ${result} row`);
+        sendResult(res, `PUT request to ${req.originalUrl}`, `Updated ${result} row`);
     } catch(e) {
         sendError(res, e);
     }
@@ -88,7 +88,7 @@ exports.delete = async (req, res) => {
             }
         });
 
-        sendResult(res, "DELETE request to /doctors/" + req.params.id, `Deleted ${result} row`);
+        sendResult(res, `DELETE request to ${req.originalUrl}`, `Deleted ${result} row`);
     } catch(e) {
         sendError(res, e);
     }

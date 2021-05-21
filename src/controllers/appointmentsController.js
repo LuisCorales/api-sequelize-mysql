@@ -1,4 +1,4 @@
-const Appointment = require("../db/models/appointment");
+const Appointment = require("../models/appointment");
 
 // If there is an error, send to response
 const sendError = (res, e) => {

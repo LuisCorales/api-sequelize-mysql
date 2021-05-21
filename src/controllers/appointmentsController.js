@@ -23,7 +23,8 @@ const sendResult = (res, message, result) => {
 };
 
 /** Asign doctor speciality and appointment duration by patient's pathology 
- * @param pathology The pathology of the patient */
+ * @param pathology The pathology of the patient 
+ * */
 const asingDoctorAndDuration = (pathology) => {
     var speciality;
     var duration;

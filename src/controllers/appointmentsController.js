@@ -231,7 +231,7 @@ exports.put = async (req, res) => {
 
         if(overlaps[0]) {
             // If dates overlap
-            throw new Error(overlaps[1])
+            throw new Error(overlaps[1]);
         } 
 
         let result = await Appointment.update({

@@ -1,7 +1,7 @@
-const Patient = require('./models/patient');
-const Hospital = require('./models/hospital');
-const Doctor = require('./models/doctor');
-const Appointment = require('./models/appointment');
+const Patient = require('../models/patient');
+const Hospital = require('../models/hospital');
+const Doctor = require('../models/doctor');
+const Appointment = require('../models/appointment');
 
 // Doctor's relations
 Hospital.hasMany(Doctor);

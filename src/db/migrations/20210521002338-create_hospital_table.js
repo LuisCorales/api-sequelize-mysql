@@ -2,20 +2,26 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
+    await queryInterface.createTable('hospitals', {
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          len: {
+            args: [3, 60],
+            msg: "name can only have from 3 to 60 letters."
+          },
+          notNull: {
+            msg: "name cannot be null."
+          }
+        }
+      },
+    }, {
+      timestamps: false
+    });
   },
 
   down: async (queryInterface, Sequelize) => {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
+    await queryInterface.dropTable('hospitals');
   }
 };

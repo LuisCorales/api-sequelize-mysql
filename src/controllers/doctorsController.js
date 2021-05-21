@@ -1,4 +1,4 @@
-const Doctor = require("../db/models/doctor");
+const Doctor = require("../models/doctor");
 
 // If there is an error, send to response
 const sendError = (res, e) => {

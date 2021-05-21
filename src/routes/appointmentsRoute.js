@@ -9,8 +9,11 @@ router.get("/", appointmentsController.getAll);
 // POST a new appointment
 router.post("/", appointmentsController.post);
 
+// GET one appointment by id
+router.get("/:appointmentId", appointmentsController.getAppointment); 
+
 // GET all appointments of one doctor by id
-router.get("/:doctorId", appointmentsController.getOneDoctorAppointments); 
+router.get("/doctors/:doctorId", appointmentsController.getOneDoctorAppointments); 
 
 // PUT/UPDATE an appointment by id
 router.put("/:appointmentId", appointmentsController.put);

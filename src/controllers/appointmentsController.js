@@ -16,6 +16,90 @@ const sendResult = (res, message, result) => {
     });
 };
 
+/** Asign doctor speciality by patient's pathology 
+ * @param pathology The pathology of the patient */
+const asingDoctor = (pathology) => {
+    var speciality;
+    var duration;
+    var str = pathology.toLowerCase();
+
+    switch (str) {
+        case "cancer":
+            speciality = "oncology";
+            duration = 60;
+            break;
+
+        case "leukemia": 
+        case "anemia":
+        case "hemophilia":
+            speciality = "hematology";
+            duration = 60;
+            break;
+        
+        case "hypertension": 
+        case "heart attack":
+            speciality = "cardiology";
+            duration = 60;
+            break;
+    
+        default:
+            speciality = "general";
+            duration = 15;
+            break;
+    }
+
+    return [speciality, duration];
+};
+
+/** Check if the duration of the appointment is correct */
+const checkDuration = (startTime, endTime) => {
+    let difference = moment.utc(moment(endTime,"YYYY-MM-dd HH:mm:ss").diff(moment(startTime,"YYYY-MM-dd HH:mm:ss"))).format("HH:mm:ss");
+    
+    let format = "HH:mm:ss",
+    differ = moment(difference, format),
+    fifteenMin = moment("00:14:00", format), 
+    oneHour = moment("01:01:00", format);
+
+    if(differ.isBetween(fifteenMin,oneHour)) {
+        // Duration is correct
+        var durationMessage = "Duration is less or equal to 1 hour, more or equal to 15 minutes!";
+        return [true, durationMessage];
+    } else {
+        // Duration is incorrect
+        var durationMessage = "Duration must be between 15 minutes and 1 hour...";
+        return [false, durationMessage];
+    }
+};
+
+/** Check if date overlaps another date from the same doctor */
+const checkIfOverlap = (startTimeNew, endTimeNew, otherDates) => {
+    if(otherDates.length == 0) {   
+        var overlapMessage = "There are no appointments yet!";
+        return [false, overlapMessage];
+    }
+
+    let startTime = moment.utc(moment(startTimeNew).format());
+    let endTime = moment.utc(moment(endTimeNew).format());
+
+    // For each appointment with the same doctor, check dates
+    for (let i = 0; i < otherDates.length; i++) {
+        let dateStart = moment.utc(moment(otherDates[i].startTime).format());
+        let dateEnd = moment.utc(moment(otherDates[i].endTime).format());
+
+        var range1 = moment().range(dateStart, dateEnd);
+        var range2 = moment().range(startTime, endTime);
+
+        if(range1.contains(startTime) && range1.contains(endTime) || (range2.contains(dateStart) || range2.contains(dateEnd))) {
+            // Overlap
+            var overlapMessage = "There are dates overlapping...";
+            return [true, overlapMessage];
+        }
+    }
+
+    var overlapMessage = "There are no overlapping dates!";
+    return [false, overlapMessage];
+};
+
 /** To GET appointments route */
 exports.getAll = async (req, res) => {
     try{

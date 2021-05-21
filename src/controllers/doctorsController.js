@@ -1,6 +1,6 @@
 const Doctor = require("../models/doctor");
 
-// If there is an error, send to response
+/** If there is an error, send to response */
 const sendError = (res, e) => {
     return res.status(404).json({
         message: 'There was a problem...',
@@ -8,7 +8,7 @@ const sendError = (res, e) => {
     });
 };
 
-// Send the result of each request if successful
+/** Send the result of each request if successful */
 const sendResult = (res, message, result) => {
     return res.status(200).json({
         message: message,
@@ -16,6 +16,7 @@ const sendResult = (res, message, result) => {
     });
 };
 
+/** To GET doctors route */
 exports.getAll = async (req, res) => {
     try{
         let result = await Doctor.findAll({
@@ -31,6 +32,7 @@ exports.getAll = async (req, res) => {
     }
 }
 
+/** To POST doctors route */
 exports.post = async (req, res) => {
     try{    
         let result = await Doctor.create({
@@ -46,6 +48,7 @@ exports.post = async (req, res) => {
     }
 }
 
+/** To GET doctor by id route */
 exports.getOne = async (req, res) => {
     try{
         let result = await Doctor.findByPk(req.params.id);
@@ -56,6 +59,7 @@ exports.getOne = async (req, res) => {
     }
 }
 
+/** To PUT doctors route */
 exports.put = async (req, res) => {
     try{
         let result = await Doctor.update({
@@ -74,6 +78,7 @@ exports.put = async (req, res) => {
     }
 }
 
+/** To DELETE doctors route */
 exports.delete = async (req, res) => {
     try{
         let result = await Doctor.destroy({

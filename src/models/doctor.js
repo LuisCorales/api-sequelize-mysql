@@ -1,4 +1,4 @@
-const db = require('../database');
+const db = require('../db/database');
 const Sequelize = require('sequelize');
 
 /** Define doctor model */ 

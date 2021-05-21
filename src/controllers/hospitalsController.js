@@ -1,6 +1,6 @@
 const Hospital = require("../models/hospital");
 
-// If there is an error, send to response
+/** If there is an error, send to response */
 const sendError = (res, e) => {
     return res.status(404).json({
         message: 'There was a problem...',
@@ -8,7 +8,7 @@ const sendError = (res, e) => {
     });
 };
 
-// Send the result of each request if successful
+/** Send the result of each request if successful */
 const sendResult = (res, message, result) => {
     return res.status(200).json({
         message: message,
@@ -16,6 +16,7 @@ const sendResult = (res, message, result) => {
     });
 };
 
+/** To GET hospitals route */
 exports.getAll = async (req, res) => {
     try{
         let result = await Hospital.findAll();
@@ -26,6 +27,7 @@ exports.getAll = async (req, res) => {
     }
 }
 
+/** To POST hospitals route */
 exports.post = async (req, res) => {
     try{    
         let result = await Hospital.create({
@@ -38,6 +40,7 @@ exports.post = async (req, res) => {
     }
 }
 
+/** To GET hospitals by id route */
 exports.getOne = async (req, res) => {
     try{
         let result = await Hospital.findByPk(req.params.id);
@@ -48,6 +51,7 @@ exports.getOne = async (req, res) => {
     }
 }
 
+/** To PUT hospitals route */
 exports.put = async (req, res) => {
     try{
         let result = await Hospital.update({
@@ -64,6 +68,7 @@ exports.put = async (req, res) => {
     }
 }
 
+/** To DELETE hospitals route */
 exports.delete = async (req, res) => {
     try{
         let result = await Hospital.destroy({

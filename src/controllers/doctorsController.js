@@ -65,7 +65,8 @@ exports.put = async (req, res) => {
         let result = await Doctor.update({
             firstName: req.body.firstName,
             surname: req.body.surname,
-            speciality: req.body.speciality
+            speciality: req.body.speciality,
+            hospitalId: req.body.hospitalId
         }, {
             where: {
                 id: req.params.id

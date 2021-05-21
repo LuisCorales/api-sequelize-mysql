@@ -9,10 +9,10 @@ const Hospital = db.define('hospital', {
         validate: {
             len: {
                 args: [3, 60],
-                msg: "surname can only have from 3 to 60 letters."
+                msg: "name can only have from 3 to 60 letters."
             },
             notNull: {
-                msg: "surname cannot be null."
+                msg: "name cannot be null."
             }
         }
     },

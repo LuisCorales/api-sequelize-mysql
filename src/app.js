@@ -25,7 +25,7 @@ app.listen(port, async () => {
     // Connect to DB
     try {
         await db.sync({
-            force: true
+            force: false
         });
         console.log('Database connected!');
     } catch(e) {

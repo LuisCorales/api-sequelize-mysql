@@ -1,4 +1,4 @@
-const Doctor = require("../models/doctor");
+const { Doctor } = require('../db/models/index');
 
 /** If there is an error, send to response */
 const sendError = (res, e) => {
@@ -17,7 +17,7 @@ const sendResult = (res, message, result) => {
 };
 
 /** To GET doctors route */
-exports.getAll = async (req, res) => {
+module.exports.getAll = async (req, res) => {
     try{
         let result = await Doctor.findAll({
             include: {
@@ -33,13 +33,13 @@ exports.getAll = async (req, res) => {
 }
 
 /** To POST doctors route */
-exports.post = async (req, res) => {
+module.exports.post = async (req, res) => {
     try{    
         let result = await Doctor.create({
-            firstName: req.body.firstName,
+            firstname: req.body.firstname,
             surname: req.body.surname,
             speciality: req.body.speciality,
-            hospitalId: req.body.hospitalId
+            hospital_id: req.body.hospital_id
         });
 
         sendResult(res, `POST request to ${req.originalUrl}`, result);
@@ -49,9 +49,14 @@ exports.post = async (req, res) => {
 }
 
 /** To GET doctor by id route */
-exports.getOne = async (req, res) => {
+module.exports.getOne = async (req, res) => {
     try{
-        let result = await Doctor.findByPk(req.params.id);
+        let result = await Doctor.findByPk(req.params.id, {
+            include: {
+                association: "hospital",
+                attributes: ['name']
+            }
+        });
 
         sendResult(res, `GET request to ${req.originalUrl}`, result);
     } catch(e) {
@@ -60,13 +65,13 @@ exports.getOne = async (req, res) => {
 }
 
 /** To PUT doctors route */
-exports.put = async (req, res) => {
+module.exports.put = async (req, res) => {
     try{
         let result = await Doctor.update({
-            firstName: req.body.firstName,
+            firstname: req.body.firstname,
             surname: req.body.surname,
             speciality: req.body.speciality,
-            hospitalId: req.body.hospitalId
+            hospital_id: req.body.hospital_id
         }, {
             where: {
                 id: req.params.id
@@ -80,7 +85,7 @@ exports.put = async (req, res) => {
 }
 
 /** To DELETE doctors route */
-exports.delete = async (req, res) => {
+module.exports.delete = async (req, res) => {
     try{
         let result = await Doctor.destroy({
             where: {

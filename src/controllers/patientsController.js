@@ -1,4 +1,4 @@
-const Patient = require("../models/patient");
+const { Patient } = require('../db/models/index');
 
 /** If there is an error, send to response */
 const sendError = (res, e) => {
@@ -17,7 +17,7 @@ const sendResult = (res, message, result) => {
 };
 
 /** To GET patients route */
-exports.getAll = async (req, res) => {
+module.exports.getAll = async (req, res) => {
     try{
         let result = await Patient.findAll();
 
@@ -28,28 +28,27 @@ exports.getAll = async (req, res) => {
 }
 
 /** To POST patients route */
-exports.post = async (req, res) => {
+module.exports.post = async (req, res) => {
     try{
-        let patients = await Patient.findAll({
+        const patients = await Patient.findAll({
             where: {
-                idDocument: req.body.idDocument
+                id_document: req.body.id_document
             }
         });
 
         if(patients == 0) {
             var result = await Patient.create({
-                firstName: req.body.firstName,
+                firstname: req.body.firstname,
                 surname: req.body.surname,
-                idDocument: req.body.idDocument,
+                id_document: req.body.id_document,
                 pathology: req.body.pathology
             });
-            
         } else {
             var result = await Patient.update({
                 pathology: req.body.pathology
             }, {
                 where: {
-                    idDocument: req.body.idDocument
+                    id_document: req.body.id_document
                 }
             });
         }
@@ -62,7 +61,7 @@ exports.post = async (req, res) => {
 }
 
 /** To GET patients by id route */
-exports.getOne = async (req, res) => {
+module.exports.getOne = async (req, res) => {
     try{
         let result = await Patient.findByPk(req.params.id);
 
@@ -73,7 +72,7 @@ exports.getOne = async (req, res) => {
 }
 
 /** To PUT patients route */
-exports.put = async (req, res) => {
+module.exports.put = async (req, res) => {
     try{
         let result = await Patient.update({
             pathology: req.body.pathology
@@ -90,7 +89,7 @@ exports.put = async (req, res) => {
 }
 
 /** To DELETE patients route */
-exports.delete = async (req, res) => {
+module.exports.delete = async (req, res) => {
     try{
         let result = await Patient.destroy({
             where: {

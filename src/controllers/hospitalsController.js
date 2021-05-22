@@ -1,4 +1,4 @@
-const Hospital = require("../models/hospital");
+const { Hospital } = require('../db/models/index');
 
 /** If there is an error, send to response */
 const sendError = (res, e) => {
@@ -17,7 +17,7 @@ const sendResult = (res, message, result) => {
 };
 
 /** To GET hospitals route */
-exports.getAll = async (req, res) => {
+module.exports.getAll = async (req, res) => {
     try{
         let result = await Hospital.findAll();
 
@@ -28,20 +28,20 @@ exports.getAll = async (req, res) => {
 }
 
 /** To POST hospitals route */
-exports.post = async (req, res) => {
+module.exports.post = async (req, res) => {
     try{    
         let result = await Hospital.create({
             name: req.body.name
         });
 
-        sendResult(res, "POST request to /appointments/", result);
+        sendResult(res, `POST request to ${req.originalUrl}`, result);
     } catch(e) {
         sendError(res, e);
     }
 }
 
 /** To GET hospitals by id route */
-exports.getOne = async (req, res) => {
+module.exports.getOne = async (req, res) => {
     try{
         let result = await Hospital.findByPk(req.params.id);
 
@@ -52,7 +52,7 @@ exports.getOne = async (req, res) => {
 }
 
 /** To PUT hospitals route */
-exports.put = async (req, res) => {
+module.exports.put = async (req, res) => {
     try{
         let result = await Hospital.update({
             name: req.body.name
@@ -69,7 +69,7 @@ exports.put = async (req, res) => {
 }
 
 /** To DELETE hospitals route */
-exports.delete = async (req, res) => {
+module.exports.delete = async (req, res) => {
     try{
         let result = await Hospital.destroy({
             where: {

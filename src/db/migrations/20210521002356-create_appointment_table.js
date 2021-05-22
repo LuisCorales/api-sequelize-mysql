@@ -3,36 +3,60 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('appointments', {
-      startTime: {
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
+      },
+      start_time: {
         type: Sequelize.DATE,
         allowNull: false,
         validate: {
           isDate: {
             args: true,
-            msg: "startTime can only be a date."
+            msg: "start_time can only be a date."
           },
           isAfter: {
             args: new Date(new Date().setDate(new Date().getDate() - 1)).toDateString(),
-            msg: "startTime cannot be start before today."
+            msg: "start_time cannot be start before today."
           }
         }
       },
-      endTime: { 
+      end_time: { 
         type: Sequelize.DATE,
         allowNull: false,
         validate: {
           isDate: {
             args: true,
-            msg: "endTime can only be a date."
+            msg: "end_time can only be a date."
           }, 
           isAfter: {
             args: new Date(new Date().setDate(new Date().getDate() - 1)).toDateString(),
-            msg: "endTime cannot end before today."
+            msg: "end_time cannot end before today."
           }
         }
       },
+      doctor_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "doctors",
+          key: "id"
+        },
+      },
+      patient_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "patients",
+          key: "id"
+        },
+      }
     }, {
-      timestamps: false
+      timestamps: false,
+      paranoid: true,
+      underscored: true,
     });
   },
 

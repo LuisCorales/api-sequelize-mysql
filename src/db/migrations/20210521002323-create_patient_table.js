@@ -3,20 +3,26 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('patients', {
-      firstName: {
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
+      },
+      firstname: {
         type: Sequelize.STRING,
         allowNull: false,
         validate: {
           is: {
             args: /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\'\s]*)$/g,
-            msg: "surname can only contain letters and '."
+            msg: "firstname can only contain letters and '."
           },
           len: {
             args: [3, 60],
-            msg: "firstName can only have from 3 to 60 letters."
+            msg: "firstname can only have from 3 to 60 letters."
           },
           notNull: {
-            msg: "firstName cannot be null."
+            msg: "firstname cannot be null."
           }
         }
       },
@@ -37,7 +43,7 @@ module.exports = {
           }
         }
       },
-      idDocument: {
+      id_document: {
         type: Sequelize.STRING(20),
         allowNull: false,
         unique: true,
@@ -46,7 +52,9 @@ module.exports = {
         type: Sequelize.STRING(100),
       },
     }, {
-      timestamps: false
+      timestamps: false,
+      paranoid: true,
+      underscored: true,
     });
   },
 

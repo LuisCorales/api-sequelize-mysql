@@ -3,6 +3,12 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('hospitals', {
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
+      },
       name: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -17,7 +23,9 @@ module.exports = {
         }
       },
     }, {
-      timestamps: false
+      timestamps: false,
+      paranoid: true,
+      underscored: true,
     });
   },
 

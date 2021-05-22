@@ -4,12 +4,14 @@ const app = express();
 app.use(express.json());
 
 // DB connection
-const db = require("./db/database");
+const { sequelize } = require('./db/models/index'); 
 
 // Set the app port and handle routes
 app.set("port", 5500);
 const port = app.set("port");
-app.use('/api/', require('./routes'));
+
+// TODO: Get all new routes
+app.use('/', require('./routes'));
 
 // If not fitting route was found, then display error
 app.use((req, res) => {
@@ -22,19 +24,9 @@ app.use((req, res) => {
 app.listen(port, async () => {
     console.log("The server is running on http://localhost:" + port);
 
-    // // Connect to DB without migrations ran
-    // try {
-    //     await db.sync({
-    //         force: true
-    //     });
-    //     console.log('Database connected!');
-    // } catch(e) {
-    //     console.error('Unable to connect to the database:', e);
-    // }
-
     // Connect to DB with migrations ran
     try {
-        await db.authenticate();
+        await sequelize.authenticate();
         console.log('Database connected!');
     } catch(e) {
         console.error('Unable to connect to the database:', e);

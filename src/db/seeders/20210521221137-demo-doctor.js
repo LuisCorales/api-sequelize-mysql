@@ -3,20 +3,20 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert('doctors', [{
-      firstName: 'DoctorA',
+      firstname: 'DoctorA',
       surname: 'DoctorA',
       speciality: 'general',
-      hospitalId: '1'
+      hospital_id: '1'
     }, {
-      firstName: 'DoctorB',
+      firstname: 'DoctorB',
       surname: 'DoctorB',
       speciality: 'hematology',
-      hospitalId: '2'
+      hospital_id: '2'
     }, {
-      firstName: 'DoctorC',
+      firstname: 'DoctorC',
       surname: 'DoctorC',
       speciality: 'oncology',
-      hospitalId: '3'
+      hospital_id: '3'
     }]);
   },
 

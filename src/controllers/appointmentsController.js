@@ -1,6 +1,4 @@
-const Appointment = require("../models/appointment");
-const Doctor = require("../models/doctor");
-const Patient = require("../models/patient");
+const { Appointment, Doctor, Patient } = require('../db/models/index');
 
 const Moment = require('moment');
 const MomentRange = require('moment-range');
@@ -8,7 +6,7 @@ const moment = MomentRange.extendMoment(Moment);
 
 /** If there is an error, send to response */
 const sendError = (res, e) => {
-    return res.status(404).json({
+    return res.status(500).json({
         message: 'There was a problem...',
         error: e.message
     });
@@ -94,7 +92,7 @@ const checkIfDatesOverlap = (startTimeNew, endTimeNew, id, otherDates) => {
 };
 
 /** To GET appointments route */
-exports.getAll = async (req, res) => {
+module.exports.getAll = async (req, res) => {
     try{
         let result = await Appointment.findAll({
             include: [
@@ -117,38 +115,38 @@ exports.getAll = async (req, res) => {
 }
 
 /** To POST appointments route */
-exports.post = async (req, res) => {
+module.exports.post = async (req, res) => {
     try{
-        let patient = await Patient.findByPk(req.body.patientId);
+        let patient = await Patient.findByPk(req.body.patient_id);
         let speciality_duration = asingDoctorAndDuration(patient.dataValues.pathology);
         let doctor = await Doctor.findOne({
             where: {
                 speciality: speciality_duration[0]
             }
         });
-        let doctorId = doctor.dataValues.id;
+        let doctor_id = doctor.dataValues.id;
 
-        let endTime = moment(moment(req.body.startTime), "hh:mm:ss").add(speciality_duration[1], 'minutes');
+        let end_time = moment(moment(req.body.start_time), "hh:mm:ss").add(speciality_duration[1], 'minutes');
 
         let otherDates = await Appointment.findAll({
-            attributes: ['startTime', 'endTime', 'id'],
+            attributes: ['start_time', 'end_time', 'id'],
             where: {
-                doctorId: doctorId
+                doctor_id: doctor_id
             }
         });
 
-        let overlaps = checkIfDatesOverlap(moment(req.body.startTime), moment(endTime), 0, otherDates);
+        let overlaps = checkIfDatesOverlap(moment(req.body.start_time), moment(end_time), 0, otherDates);
 
         if(overlaps[0]) {
             // If dates overlap send all doctors date as response
-            throw new Error();
+            throw new Error(overlaps[1]);
         } 
 
         let result = await Appointment.create({
-            startTime: req.body.startTime,
-            endTime: endTime,
-            doctorId: doctorId,
-            patientId: req.body.patientId
+            start_time: req.body.start_time,
+            end_time: end_time,
+            doctor_id: doctor_id,
+            patient_id: req.body.patient_id
         });
 
         sendResult(res, `POST request to ${req.originalUrl}`, result);
@@ -158,7 +156,7 @@ exports.post = async (req, res) => {
 }
 
 /** To GET one appointment by id route */
-exports.getAppointment = async (req, res) => {
+module.exports.getAppointment = async (req, res) => {
     try{
         let result = await Appointment.findByPk(req.params.appointmentId, {
             include: [
@@ -181,7 +179,7 @@ exports.getAppointment = async (req, res) => {
 }
 
 /** To GET appointments of a doctor by id route */
-exports.getOneDoctorAppointments = async (req, res) => {
+module.exports.getOneDoctorAppointments = async (req, res) => {
     try{
         let result = await Appointment.findAll({
             include: [
@@ -196,7 +194,7 @@ exports.getOneDoctorAppointments = async (req, res) => {
                 }
             ],
             where: {
-                doctorId: req.params.doctorId
+                doctor_id: req.params.doctor_id
             }
         });
 
@@ -207,27 +205,27 @@ exports.getOneDoctorAppointments = async (req, res) => {
 }
 
 /** To PUT appointments route */
-exports.put = async (req, res) => {
+module.exports.put = async (req, res) => {
     try{
-        let patient = await Patient.findByPk(req.body.patientId);
+        let patient = await Patient.findByPk(req.body.patient_id);
         let speciality_duration = asingDoctorAndDuration(patient.dataValues.pathology);
         let doctor = await Doctor.findOne({
             where: {
                 speciality: speciality_duration[0]
             }
         });
-        let doctorId = doctor.dataValues.id;
+        let doctor_id = doctor.dataValues.id;
 
-        let endTime = moment(moment(req.body.startTime), "hh:mm:ss").add(speciality_duration[1], 'minutes');
+        let end_time = moment(moment(req.body.start_time), "hh:mm:ss").add(speciality_duration[1], 'minutes');
 
         let otherDates = await Appointment.findAll({
-            attributes: ['startTime', 'endTime', 'id'],
+            attributes: ['start_time', 'end_time', 'id'],
             where: {
-                doctorId: doctorId
+                doctor_id: doctor_id
             }
         });
 
-        let overlaps = checkIfDatesOverlap(moment(req.body.startTime), moment(endTime), req.params.appointmentId, otherDates);
+        let overlaps = checkIfDatesOverlap(moment(req.body.start_time), moment(end_time), req.params.appointmentId, otherDates);
 
         if(overlaps[0]) {
             // If dates overlap
@@ -235,10 +233,10 @@ exports.put = async (req, res) => {
         } 
 
         let result = await Appointment.update({
-            startTime: req.body.startTime,
-            endTime: endTime,
-            doctorId: doctorId,
-            patientId: req.body.patientId
+            start_time: req.body.start_time,
+            end_time: end_time,
+            doctor_id: doctor_id,
+            patient_id: req.body.patient_id
         }, {
             where: {
                 id: req.params.appointmentId
@@ -252,7 +250,7 @@ exports.put = async (req, res) => {
 }
 
 /** To DELETE appointments route */
-exports.delete = async (req, res) => {
+module.exports.delete = async (req, res) => {
     try{
         let result = await Appointment.destroy({
             where: {
